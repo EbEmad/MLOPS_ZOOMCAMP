@@ -6,6 +6,6 @@ services:
     container_name: python_app
     hostname: python_app
     volumes:
-      - ./homework:/app/homework
+      - ./01-intro:/app/01-intro
     ports:
       - "8000:8000"
