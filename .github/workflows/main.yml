@@ -1,8 +1,8 @@
 # this is a simple workflow to help to start
 
-name: CI
+name: EbEmad_Action
 
-on:
+on: 
   # to trigger the workflow
   push:
     branches: [ main ]
@@ -19,7 +19,7 @@ jobs:
     # what should run inside the ruinner
     steps:
       # check out your repo 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
 
       # runs a single command using the runners shell
       - name: Run a one-line script
@@ -27,6 +27,6 @@ jobs:
       # run a set of command using the runners shell
       - name: Run a set of commands using the runners shell
         run: |
-          echo how are you today
-          echo what are doing now
+          echo thank you for your efforts
+          echo do your best
   
