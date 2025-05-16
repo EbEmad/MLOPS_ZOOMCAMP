@@ -1,15 +1,8 @@
 # this is a simple workflow to help to start
 
-name: EbEmad_Action
+name: trigger
 
-on: 
-  # to trigger the workflow
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  # aloosw the workflow runs manually
-  workflow_dispatch:
+on: push
 # a work flow is made up of one or more jobs that can run
 jobs:
   # this workflow contains a single job called build
