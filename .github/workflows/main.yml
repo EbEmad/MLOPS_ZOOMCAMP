@@ -1,0 +1,32 @@
+# this is a simple workflow to help to start
+
+name: CI
+
+on:
+  # to trigger the workflow
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  # aloosw the workflow runs manually
+  workflow_dispatch:
+# a work flow is made up of one or more jobs that can run
+jobs:
+  # this workflow contains a single job called build
+  build:
+    runs-on: ubuntu:latest
+
+    # what should run inside the ruinner
+    steps:
+      # check out your repo 
+      - uses: actions/checkout@v3
+
+      # runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo hello hema!
+      # run a set of command using the runners shell
+      - name: Run a set of commands using the runners shell
+        run: |
+          echo how are you today
+          echo what are doing now
+  
