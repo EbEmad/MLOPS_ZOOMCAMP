@@ -1,9 +1,14 @@
-# build ci
-on: push
+# try 
 
+on: [push]
+name: Build Docker Image on Push
 jobs:
-  first-job:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-20.04
+
     steps:
-      - run: echo "Hello, world! Eng Ebrahim Emad"
-      - run: echo "This is my first job"
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: docker build -t hema -f dockerfile .
