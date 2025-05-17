@@ -1,0 +1,9 @@
+# build ci
+on: push
+
+jobs:
+  first-job:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello, world! Eng Ebrahim"
+      - run: echo "This is my first job"
