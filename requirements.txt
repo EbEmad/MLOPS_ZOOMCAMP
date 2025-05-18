@@ -3,3 +3,5 @@ pyarrow
 jupyter
 scikit-learn
 numpy
+seaborn
+matplotlib
