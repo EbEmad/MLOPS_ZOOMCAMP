@@ -4,7 +4,7 @@ on: [push]
 name: Build Docker Image on Push
 jobs:
   build1:
-    runs-on: macOS-latest
+    runs-on: macOS-11
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
