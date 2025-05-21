@@ -1,53 +1,27 @@
 name: Build Docker Image on Push
 
-on:
-  push:
+on: [push]
 
 jobs:
-  build1:
-    runs-on: macOS-latest
+  build:
+    strategy:
+      matrix:
+        os: 
+          - ubuntu-latest 
+          - windows-latest 
+          - macOS-latest
+        python-version: 
+          - 3.8
+          - 3.9
+          - 3.10
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
-
-      - name: Set up Docker on macOS
-        run: |
-          brew install --cask docker
-          open /Applications/Docker.app
-          sleep 60  # Wait for Docker to start
-
-      - name: Build Docker image
-        run: docker build -t hema -f dockerfile .
-
-      - name: Run Docker container
-        run: docker run -d -p 8000:8000 --name python_app hema
-
-  build2:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
-      - name: Build Docker image
-        run: docker build -t hema -f dockerfile .
-
-      - name: Run Docker container
-        run: docker run -d -p 8000:8000 --name python_app hema
-
-  build3:
-    runs-on: windows-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
-      - name: Set up Docker on Windows
-        run: |
-          choco install docker-desktop
-          Start-Process "C:\Program Files\Docker\Docker\Docker Desktop.exe"
-          Start-Sleep -Seconds 60
-
-      - name: Build Docker image
-        run: docker build -t hema -f dockerfile .
-
-      - name: Run Docker container
-        run: docker run -d -p 8000:8000 --name python_app hema
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Display Python Version
+        run: python --version
