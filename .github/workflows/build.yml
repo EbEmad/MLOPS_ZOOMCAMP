@@ -3,8 +3,28 @@
 on: [push]
 name: Build Docker Image on Push
 jobs:
-  build:
+  build1:
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: docker build -t hema -f dockerfile .
+      - name: Run Docker container
+        run: docker run -d -p 8000:8000 --name python_app hema
+  build2:
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: docker build -t hema -f dockerfile .
+      - name: Run Docker container
+        run: docker run -d -p 8000:8000 --name python_app hema
+  build3:
+    runs-on: windows-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
