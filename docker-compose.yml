@@ -1,11 +1,44 @@
 services:
-  python_app:
+  mflow:
     build:
       context: .
       dockerfile: dockerfile
-    container_name: python_app
-    hostname: python_app
+    container_name: mlflow
+    hostname: mlflow
     volumes:
       - ./01-intro:/app/01-intro
     ports:
       - "8000:8000"
+      - "5000:5000"
+    environment:
+      MLFLOW_S3_ENDPOINT_URL: http://minio:9000
+      AWS_ACCESS_KEY_ID: minioadmin
+      AWS_SECRET_ACCESS_KEY: minioadmin
+    depends_on:
+      - db
+      - minio
+
+  db:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      POSTGRES_USER: mlflow
+      POSTGRES_PASSWORD: mlflow
+      POSTGRES_DB: mlflow
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  minio:
+    image: minio/minio
+    container_name: minio
+    environment:
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+    command: server /data
+    ports:
+      - "9000:9000"
+    volumes:
+      - minio_data:/data
+volumes:
+  pgdata:
+  minio_data:
