@@ -15,5 +15,3 @@ jupyter notebook \
   --no-browser \
   --NotebookApp.token='' \
   --NotebookApp.password=''
-
-wait  # wait for all background jobs

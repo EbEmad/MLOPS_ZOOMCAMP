@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   mflow:
     build:
@@ -7,6 +9,7 @@ services:
     hostname: mlflow
     volumes:
       - ./01-intro:/app/01-intro
+      - ./02-experiment-tracking:/app/02-experiment-tracking
     ports:
       - "8000:8000"
       - "5000:5000"
@@ -17,6 +20,8 @@ services:
     depends_on:
       - db
       - minio
+    networks:
+      - mlops
 
   db:
     image: postgres:13
@@ -25,20 +30,29 @@ services:
       POSTGRES_USER: mlflow
       POSTGRES_PASSWORD: mlflow
       POSTGRES_DB: mlflow
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5433:5433"
+    networks:
+      - mlops
 
   minio:
     image: minio/minio
     container_name: minio
     environment:
-      MINIO_ACCESS_KEY: minioadmin
-      MINIO_SECRET_KEY: minioadmin
-    command: server /data
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server --console-address ":9001" /data
     ports:
       - "9000:9000"
+      - "9001:9001"
+    networks:
+      - mlops
     volumes:
       - minio_data:/data
+
+networks:
+  mlops:
+    name: MLOPS
+    driver: bridge
 volumes:
-  pgdata:
   minio_data:

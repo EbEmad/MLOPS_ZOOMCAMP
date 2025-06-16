@@ -1,0 +1,6 @@
+apache-airflow>=2.0.0,<3
+apache-airflow-providers-docker>=2.0.0,<4
+mlflow-skinny
+scikit-learn
+astro-sdk-python
+airflow-provider-mlflow

@@ -1,10 +1,12 @@
 pandas
 pyarrow
-jupyter==1.0.0
-scikit-learn==1.0.2
-numpy==1.21.5
+jupyter
+scikit-learn
+numpy
 seaborn
 matplotlib
-mlflow==1.25.1
+mlflow
 xgboost
 hyperopt
+joblib
+minio
