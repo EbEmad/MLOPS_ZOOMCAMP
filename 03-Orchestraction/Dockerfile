@@ -4,7 +4,6 @@ COPY req.txt .
 # Install required Python packages
 RUN pip install --no-cache-dir -r req.txt
 RUN usermod -aG docker airflow
-
 # Copy the DAGs directory to the Airflow home directory
 COPY dags/ /opt/airflow/dags/
 
