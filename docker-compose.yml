@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  mflow:
+  mlflow:
     build:
       context: .
       dockerfile: dockerfile
@@ -10,20 +10,17 @@ services:
     volumes:
       - ./01-intro:/app/01-intro
       - ./02-experiment-tracking:/app/02-experiment-tracking
+    environment:
+      - MLFLOW_ARTIFACT_ROOT=/app/02-experiment-tracking/mlflow_artifacts
     ports:
       - "8000:8000"
       - "5000:5000"
-    environment:
-      MLFLOW_S3_ENDPOINT_URL: http://minio:9000
-      AWS_ACCESS_KEY_ID: minioadmin
-      AWS_SECRET_ACCESS_KEY: minioadmin
     depends_on:
-      - db
-      - minio
+      - postgres
     networks:
       - mlops
 
-  db:
+  postgres:
     image: postgres:13
     container_name: postgres
     environment:
@@ -31,28 +28,11 @@ services:
       POSTGRES_PASSWORD: mlflow
       POSTGRES_DB: mlflow
     ports:
-      - "5433:5433"
+      - "5432:5432"
     networks:
       - mlops
-
-  minio:
-    image: minio/minio
-    container_name: minio
-    environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
-    command: server --console-address ":9001" /data
-    ports:
-      - "9000:9000"
-      - "9001:9001"
-    networks:
-      - mlops
-    volumes:
-      - minio_data:/data
 
 networks:
   mlops:
     name: MLOPS
     driver: bridge
-volumes:
-  minio_data:

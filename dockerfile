@@ -1,19 +1,19 @@
-FROM python:3.11-slim
-
+FROM ghcr.io/mlflow/mlflow:latest
 WORKDIR /app
-
-
-
-# Install build tools for compiling Python packages
-RUN apt-get update && apt-get install -y gcc build-essential
+# install dependency
 COPY requirements.txt requirements.txt
-
 RUN pip install -r requirements.txt
+# First create the user properly with a home directory and shell
+RUN adduser --disabled-password --gecos "" --uid 1000 mlflow-user && \
+    mkdir -p /app/Models /app/02-experiment-tracking/mlflow_artifacts && \
+    chown -R mlflow-user:mlflow-user /app
+# Install extra dependencies
+RUN apt-get update && apt-get install -y postgresql-client && \
+    pip install psycopg2-binary
+USER mlflow-user
 
-RUN pip install --upgrade pip && \
-    pip install mlflow[extras] psycopg2-binary boto3
 
-COPY run.sh /app/run.sh
+COPY --chown=mlflow-user:mlflow-user run.sh /app/run.sh
 RUN chmod +x /app/run.sh
-EXPOSE 5000
-CMD [ "bash", "/app/run.sh" ]
+
+CMD ["bash", "/app/run.sh"]
