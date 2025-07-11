@@ -1,0 +1,23 @@
+
+services:
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    ports:
+      - "4566:4566"
+      - "4571:4571"
+    environment:
+      - SERVICES=s3
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+    volumes:
+      # - ./localstack:/tmp/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ${PWD}:/app
+    ports:
+      - "2222:22"

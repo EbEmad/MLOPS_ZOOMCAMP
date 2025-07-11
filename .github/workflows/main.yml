@@ -1,0 +1,9 @@
+on:
+    schedule:
+        - cron: '*/1 * * * *'  # Runs every minute
+jobs:
+    task:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Print message
+              run: echo "This is a scheduled task running every minute."
